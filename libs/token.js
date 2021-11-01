@@ -4,7 +4,7 @@ const jwtSecretKey = process.env.jwtSecretKey;
 
 const createToken = (payload) => {
     return jwt.sign(payload, jwtSecretKey, {
-        expiresIn: '30m'
+        expiresIn: '3h'
     });
 }
 const decodeToken = (token) => {
@@ -26,7 +26,9 @@ const jwtMiddleware = (req, res, next) => {
         //         httpOnly: true, sameSite: 'none', secore: true
         //     });
         // }
-        req.user = decoded.user_id; 
+        const userId = decoded.userId;
+        const userName = decoded.userName;
+        req.user = {userId, userName}; 
     }catch(err){
         // token validation 실패 
         req.user = null;
