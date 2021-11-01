@@ -25,5 +25,24 @@ userSchema.pre('save', function(next){
 })
 
 // model 함수들 아래로 작성 ~!
+userSchema.statics.create = function(userId, userPw, userName) {
+    const user = new this({
+        userId,
+        password: userPw,
+        userName,
+        createdDt: Date.now(),
+        updatedDt: Date.now()
+    });
+    return user.save();
+}
 
+userSchema.statics.checkLogin = async function(userId, userPw) {
+    const user = await this.findOne({ userId });
+    if (user === null) return null;
+    const isSame = await bcrypt.compare(userPw, user.password);
+    if (isSame) return user;
+    return false;
+}
+
+userSchema.statics.findUserB
 module.exports = mongoose.model('user', userSchema);
