@@ -4,14 +4,10 @@ const { jwtMiddleware } = require('./libs/token')
 const cors = require('cors')
 const router = require('./router')
 const mongoose = require('mongoose')
-const config = require('./config/key')
 const port = process.env.PORT || 3013
-
-const connect = mongoose.connect(config.mongoURI,
-    {
-        useNewUrlParser: true, useUnifiedTopology: true,
-        useCreateIndex: true, useFindAndModify: false
-    })
+require('dotenv').config();
+mongoURI = process.env.mongoURI;
+const connect = mongoose.connect(mongoURI)
     .then(() => console.log('MongoDB Connected...'))
     .catch(err => console.log(err))
 
