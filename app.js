@@ -19,6 +19,26 @@ app.use(jwtMiddleware)
 
 app.use('/', router)
 
+app.use((error, req, res, next)=> {
+    if (error.message === 'Unauthorized') error.status = 401;
+    else if (error.message === 'Forbidden') error.status = 403;
+    console.log(error);
+    switch(error.status){
+        case 401:
+            if(!error.message) error.message = 'Unauthorized';
+            break;
+        case 403:
+            if(!error.message) error.message = 'Forbidden';
+            break;
+        case 404:
+            if(!error.message) error.message = 'not found';
+            break;
+        default:
+            error.status = 500;
+            error.message = '서버에서 문제가 발생했습니다.';
+    }
+    res.status(error.status).send({message: error.message});
+});
 app.listen(port, function () {
     console.log(`Server Listening on ${port}`)
 })
