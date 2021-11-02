@@ -85,7 +85,8 @@ const deleteBoard = async function (req, res, next) {
 
 const listBoard = async function (req, res, next) {
     try {
-        const {title, author, categoryCode, pageNo} = req.query
+        const {title, author, categoryCode} = req.query
+        const pageNo = Number(req.query.pageNo || 1);
         let postQuery = []
         let orQuery = {}
 
