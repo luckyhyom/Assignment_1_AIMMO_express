@@ -48,5 +48,4 @@ userSchema.statics.checkLogin = async function(userId, userPw) {
     }
 }
 
-userSchema.statics.findUserB
 module.exports = mongoose.model('user', userSchema);

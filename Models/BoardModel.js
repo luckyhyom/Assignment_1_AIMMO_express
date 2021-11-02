@@ -10,8 +10,8 @@ const boardSchema = mongoose.Schema({
     title: {type: String, required: true, trim: true},
     contents: {type: String, required: true, trim: true},
     readUser: {type: Object, trim: true}, // key, key개수 - object
-    createdDt: {type: Date, required: true},
-    updatedDt: {type: Date, required: true},
+    createdDt: {type: Date, required: true, default: Date.now()},
+    updatedDt: {type: Date, required: true, default: Date.now()},
 }, {
     versionKey: false
 });
@@ -28,9 +28,7 @@ boardSchema.plugin(
 boardSchema.statics.create = function(title, contents, categoryCode, userId) {
     try {
         const board = new this({
-            title, contents, categoryCode, userId,
-            createdDt: Date.now(),
-            updatedDt: Date.now()
+            title, contents, categoryCode, userId
         })
         return board.save();
     } catch (e) {
