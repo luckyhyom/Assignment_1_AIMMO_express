@@ -42,7 +42,7 @@ const modifyBoard = async function(req, res, next) {
 
         let boardInfo = await board.findOne({ boardId })
         boardInfo = boardInfo.toObject()
-        
+
         delete boardInfo.readUser;
         res.status(200).json({
             success: true, 
@@ -111,13 +111,11 @@ const listBoard = async function (req, res, next) {
             .populate("_id")
             .exec()
         
-        boardInfo = boardInfo.toObject()
         if (!boardInfo) throw new Error("존재하지 않는 페이지입니다.")
-
+        
         let count = await board.count()
         const maxPageNo = Math.ceil(count/pageSize)
 
-        delete boardInfo.readUser;
         res.status(200).json({
             success: true,
             message:"성공했습니다.", 
