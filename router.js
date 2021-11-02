@@ -6,7 +6,7 @@ const userController = require('./Controllers/userController');
 const boardController = require('./Controllers/boardController');
 const commentController = require('./Controllers/CommentController');
 
-router.post('/user', userController.signup); // 회원가입
+router.post('/signup', userController.signup); // 회원가입
 router.post('/signin', userController.signin); // 로그인
 
 router.post('/board', boardController.writeBoard); // 게시글 생성
