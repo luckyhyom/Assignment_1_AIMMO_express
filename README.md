@@ -67,11 +67,16 @@ $ npm run start
 
 Postman으로 API들을 테스트할 때,
 
-`/signin` 의 응답으로 오는 token값을, 
+`/signup` 이나 `/signin` 의 응답으로 오는 token값을, 
 
 다른 요청시에 `Authorization Header`에 넣어서 보내주셔야 합니다!
 
-
+```
+예시) Headers
+| KEY           | VALUE                        |
+| ------------- | ---------------------------- |
+| Authorization | eyJhbGciOiJIUzI1NiIsInR5c... |
+```
 
 ## 사용 기술 ⚒
 
@@ -92,6 +97,8 @@ Postman으로 API들을 테스트할 때,
 ### MongoDB 📘
 
 > mongoose 라이브러리를 이용했습니다.
+- #### ERD
+![AIMMO_ERD](https://user-images.githubusercontent.com/60311404/139860476-64427ebb-78b2-4555-9fec-021807509aea.png)
 
 
 
