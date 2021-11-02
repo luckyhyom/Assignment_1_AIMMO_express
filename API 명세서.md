@@ -18,9 +18,9 @@
 
     ```json
     {
-        "userId": "", 
-        "userPw": "", 
-        "userName": ""
+        "userId": String, 
+        "userPw": String, 
+        "userName": String
     }
     ```
 
@@ -75,8 +75,8 @@
 
     ```json
     {
-        "userId": "", 
-        "userPw": ""
+        "userId": String, 
+        "userPw": String
     }
     ```
 
@@ -139,9 +139,9 @@
 
     ```json
     {
-        "title": "", 
-        "contents": "", 
-        "categoryCode": 0(or 1 or 2)
+        "title": String, 
+        "contents": String, 
+        "categoryCode": Number( 0 or 1 or 2 )
     }
     ```
 
@@ -161,14 +161,24 @@
     | ------- | ------- | ------------------------ | -------------- |
     | success | boolean | true                     | 요청 성공 여부 |
     | message | string  | 게시글이 등록되었습니다. | 응답 메세지    |
-
+    | boardInfo | object  | { "title": "", ...  } | 게시글 정보    |
   - body example
 
     ```json
     // 성공시
     {
         "success": true,
-        "message": "게시글이 등록되었습니다."
+        "message": "게시글이 등록되었습니다.",
+        "boardInfo": {
+            "userId": "heejin",
+            "categoryCode": 1,
+            "title": "list확인13",
+            "contents": "hellos",
+            "createdDt": "2021-11-02T14:37:17.943Z",
+            "updatedDt": "2021-11-02T14:37:17.943Z",
+            "_id": "61814d1dbcc499301aa4bccf",
+            "boardId": 17
+        }
     }
     
     // 실패시
@@ -204,9 +214,9 @@
 
     ```json
     {
-        "title": "", 
-        "contents": "", 
-        "categoryCode": 0(or 1 or 2)
+        "title": String, 
+        "contents": String, 
+        "categoryCode": Number( 0 or 1 or 2 )
     }
     ```
 
@@ -227,6 +237,7 @@
     | ------- | ------- | -------------- | -------------- |
     | success | boolean | true           | 요청 성공 여부 |
     | message | string  | 수정되었습니다 | 응답 메세지    |
+    | boardInfo | object  | { "title": "", ...  } | 게시글 정보    |
 
   - body example
 
@@ -234,7 +245,17 @@
     // 성공시
     {
         "success": true,
-        "message": "수정되었습니다"
+        "message": "수정되었습니다.",
+        "boardInfo": {
+            "_id": "61802beeb00e46398d58786e",
+            "userId": "heejin",
+            "categoryCode": 1,
+            "title": "hello",
+            "contents": "dds",
+            "createdDt": "2021-11-01T18:03:26.170Z",
+            "updatedDt": "2021-11-02T16:30:48.384Z",
+            "boardId": 3
+        }
     }
     
     // 실패시
@@ -340,7 +361,7 @@
     | --------- | ------- | ------------------- | -------------- |
     | success   | boolean | true                | 요청 성공 여부 |
     | message   | string  | 성공했습니다.       | 응답 메세지    |
-    | boardInfo | object  | { title: "", ...  } | 게시글 정보    |
+    | boardInfo | object  | { "title": "", ...  } | 게시글 정보    |
     | cnt       | number  | 1                   | 조회수         |
 
   - body example
@@ -349,7 +370,22 @@
     // 성공시
     {
         "success": true,
-        "message": "성공했습니다."
+        "message": "성공했습니다.",
+        "boardInfo": {
+            "_id": "61802beeb00e46398d58786e",
+            "userId": "heejin",
+            "categoryCode": 1,
+            "title": "hello",
+            "contents": "dds",
+            "createdDt": "2021-11-01T18:03:26.170Z",
+            "updatedDt": "2021-11-02T16:30:48.384Z",
+            "boardId": 3
+        },
+        "cnt": 2,
+        "categoryName": {
+            "_id": "61816aada14ff3c430cb0934",
+            "categoryName": "비밀게시판"
+        }
     }
     
     // 실패시
@@ -391,8 +427,8 @@
     | --------- | ------- | --------------------- | -------------- |
     | success   | boolean | true                  | 요청 성공 여부 |
     | message   | string  | 성공했습니다.         | 응답 메세지    |
-    | skipSize  | number  | 10                    | pagination     |
-    | boardInfo | array   | [{ title: "", ...  }] | 게시글 정보    |
+    | maxPageNo  | number  | 10                    | 현재 조건에서 maxpage번호     |
+    | boardInfo | array   | [{ "title": "", ...  }] | 게시글 정보    |
 
   - body example
 
@@ -400,7 +436,19 @@
     // 성공시
     {
         "success": true,
-        "message": "성공했습니다."
+        "message": "성공했습니다.",
+        "maxPageNo": 3,
+        "boardInfo": [
+            {
+                "_id": "618164aafba6014e1c3dc00f",
+                "title": "hello world",
+                "contents": "nimo",
+                "categoryCode": 2,
+                "userId": "test8",
+                "boardId": 22,
+                "createdDt": "2021-11-02T16:17:46.272Z",
+                "updatedDt": "2021-11-02T16:34:58.981Z"
+            }, ...
     }
     
     // 실패시
@@ -416,7 +464,7 @@
 
 6) #### 게시글 검색 글쓴이/제목/카테고리
 
-`GET` /board/?title=제목&pageNo=
+`GET` /board/?title=제목&pageNo=3
 
 - request
 
@@ -442,8 +490,8 @@
     | --------- | ------- | --------------------- | -------------- |
     | success   | boolean | true                  | 요청 성공 여부 |
     | message   | string  | 성공했습니다.         | 응답 메세지    |
-    | skipSize  | number  | 10                    | pagination     |
-    | boardInfo | array   | [{ title: "", ...  }] | 게시글 정보    |
+    | maxPageNo  | number  | 10                    | 현재 조건에서 maxpage번호     |
+    | boardInfo | array   | [{ "title": "", ...  }] | 게시글 정보    |
 
   - body example
 
@@ -451,7 +499,19 @@
     // 성공시
     {
         "success": true,
-        "message": "성공했습니다."
+        "message": "성공했습니다.",
+        "maxPageNo": 3,
+        "boardInfo": [
+            {
+                "_id": "61802beeb00e46398d58786e",
+                "userId": "heejin",
+                "categoryCode": 1,
+                "title": "hello",
+                "contents": "dds",
+                "createdDt": "2021-11-01T18:03:26.170Z",
+                "updatedDt": "2021-11-02T16:30:48.384Z",
+                "boardId": 3
+            }, ...
     }
     
     // 실패시
@@ -484,9 +544,9 @@
     ```json
     // 댓글
     {
-        "boardId": 1 or ect..,
-        "contents": " ",
-        "depth": 1 or 2
+        "boardId": Number ( 1 or ect.. ),
+        "contents": String,
+        "depth": Number ( 1 or 2 )
     }
     ```
 
@@ -549,7 +609,7 @@
 
     ```json
     {
-        "contents": ""
+        "contents": String
     }
     ```
 
