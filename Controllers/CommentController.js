@@ -30,7 +30,8 @@ async function modifyComment(req, res, next){
         if (userId !== tempComment.userId) throw new Error('권한이 없습니다.');
         const commentInfo = await comment.findOneAndUpdate(
             { commentId },
-            { contents, updatedDt: Date.now() }
+            { $set: {contents, updatedDt: Date.now() }},
+            { new: true }
         );
         res.status(200).json({
             success: true,
