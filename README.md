@@ -97,9 +97,10 @@ Postman으로 API들을 테스트할 때,
 ### MongoDB 📘
 
 > mongoose 라이브러리를 이용했습니다.
-- #### ERD
-![AIMMO_ERD](https://user-images.githubusercontent.com/60311404/139860476-64427ebb-78b2-4555-9fec-021807509aea.png)
 
+
+## ERD
+![AIMMO_ERD](https://user-images.githubusercontent.com/60311404/139860476-64427ebb-78b2-4555-9fec-021807509aea.png)
 
 
 ## API 명세서
