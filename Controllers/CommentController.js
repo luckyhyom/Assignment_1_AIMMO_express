@@ -49,16 +49,18 @@ async function getCommentList(req, res, next){
         let depth = 1;
         if (commentId !== undefined) depth = 2; // 대댓글
         let { result, count } = await comment.getCommentList(boardId, commentId, depth, pageNo, pageSize);
-        if (!result) result = [];
+        if (!result) throw new Error("존재하지 않는 페이지입니다.");
         const maxPageNo = Math.ceil(count/pageSize);
         res.status(200).json({
             success: true,
             message: '성공했습니다.',
             maxPageNo,
-            result
+            commentInfo: result
         });
     } catch(err){
-        console.log(err);
+        if (err.message === "존재하지 않는 페이지입니다.")
+            err.status = 404
+        next(err)
     }
 }
 async function deleteComment(req, res, next){
