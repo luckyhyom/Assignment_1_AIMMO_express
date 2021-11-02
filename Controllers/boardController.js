@@ -1,4 +1,6 @@
 const board = require('../Models/BoardModel')
+const category = require('../Models/CategoryCode');
+const comment = require('../Models/CommentModel');
 
 const writeBoard = async function(req, res, next) {
     try {
@@ -19,16 +21,15 @@ const writeBoard = async function(req, res, next) {
 
 const modifyBoard = async function(req, res, next) {
     try {
-        const {title, contents, categoryCode} = req.body
-        
         const userId = req.user?.userId
-        const boardId = req.params.id
-
         if (!userId) throw new Error("권한이 없습니다.") 
+        const userInfo = await board.find({ userId })
+        if (!userInfo) throw new Error("권한이 없습니다.") 
 
-        const userInfo = board.findOne({boardId})
-        if (userId !== userInfo) throw new Error("권한이 없습니다.")
-
+        const {title, contents, categoryCode} = req.body
+    
+        const boardId = req.params.id
+        
         const boardInfo = await board.updateOne(
             {
                 boardId,
@@ -54,16 +55,16 @@ const modifyBoard = async function(req, res, next) {
 
 const deleteBoard = async function (req, res, next) {
     try {
-        const userId = req.user?.userId
-        const boardId = req.params.id
-        if (!userId) throw new Error("권한이 없습니다.") 
-
-        const userInfo = board.findOne({boardId})
-        if (userId !== userInfo.userId) throw new Error("권한이 없습니다.")
+        const userId = req.user?.userId; 
+        if (!userId) throw new Error('권한이 없습니다.');
+        const boardId = req.params.id;
+        const boardInfo = await board.findOne({ boardId, userId });
+        if (!userInfo) throw new Error("권한이 없습니다.") 
 
         const boardInfo = await board.deleteOne({ boardId, userId})
         if(!boardInfo) throw new Error("존재하지 않는 게시글입니다.")
 
+        await comment.deleteMany({boardId});
         res.status(200).json({
             success: true, 
             message: "삭제되었습니다."
@@ -146,11 +147,15 @@ const detailBoard = async function (req, res, next) {
     
         }
         const cnt = Object.keys(objOriginal).length
+        const categoryName = await category.findOne({ categoryCode }).select('categoryName');
+        delete boardInfo['readUser']; 
         res.status(200).json({
+            success: true,
+            message: '성공했습니다.',
             boardInfo,
-            cnt
+            cnt,
+            categoryName
         })
-
     } catch (err) {
         if (err.message === "존재하지 않는 게시글입니다.")
             err.status = 404
