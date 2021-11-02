@@ -31,15 +31,19 @@ const modifyBoard = async function(req, res, next) {
     
         const boardId = req.params.id
         
-        const boardInfo = await board.updateOne(
+        const boardUpdate = await board.updateOne(
             {
                 boardId,
                 userId
             },
             { $set : { title, updatedDt: Date.now(), contents, categoryCode }}
         )
-        if(!boardInfo) throw new Error("존재하지 않는 게시글입니다.")
+        if(!boardUpdate) throw new Error("존재하지 않는 게시글입니다.")
 
+        let boardInfo = await board.findOne({ boardId })
+        boardInfo = boardInfo.toObject()
+        
+        delete boardInfo.readUser;
         res.status(200).json({
             success: true, 
             message: "수정되었습니다.", 
@@ -100,18 +104,20 @@ const listBoard = async function (req, res, next) {
             orQuery = {$or: postQuery}
         }
         
-        const boardInfo = await board.find(orQuery)
+        let boardInfo = await board.find(orQuery)
             .sort({ updatedDt: -1 }) // 업데이트된 날짜로 내림차순
             .skip(parseInt(offset))
             .limit(pageSize)
             .populate("_id")
             .exec()
         
+        boardInfo = boardInfo.toObject()
         if (!boardInfo) throw new Error("존재하지 않는 페이지입니다.")
 
         let count = await board.count()
         const maxPageNo = Math.ceil(count/pageSize)
 
+        delete boardInfo.readUser;
         res.status(200).json({
             success: true,
             message:"성공했습니다.", 
@@ -130,17 +136,20 @@ const detailBoard = async function (req, res, next) {
         const userId = req.user?.userId
         const boardId = req.params.id
         let objOriginal = {}
-        const boardInfo = await board.findOne({ 
+        let boardInfo = await board.findOne({ 
             boardId
         })
+        boardInfo = boardInfo.toObject()
         if (!boardInfo) throw new Error("존재하지 않는 게시글입니다.")
 
+        const categoryCode = boardInfo.categoryCode;
+
+        if (boardInfo.readUser !== undefined) {
+            objOriginal = boardInfo.readUser
+        }
         if (userId !== undefined) {
-            if (boardInfo.readUser !== undefined) {
-                objOriginal = boardInfo.readUser
-            }
             objOriginal[userId] = true
-            
+
             await boardInfo.updateOne(
                 {
                 $set: {
@@ -151,9 +160,11 @@ const detailBoard = async function (req, res, next) {
             })
     
         }
-        const cnt = Object.keys(objOriginal).length
         const categoryName = await category.findOne({ categoryCode }).select('categoryName');
-        delete boardInfo['readUser']; 
+        
+        const cnt = Object.keys(objOriginal).length
+
+        delete boardInfo.readUser;
         res.status(200).json({
             success: true,
             message: '성공했습니다.',
