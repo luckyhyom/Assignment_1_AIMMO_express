@@ -37,11 +37,15 @@ userSchema.statics.create = function(userId, userPw, userName) {
 }
 
 userSchema.statics.checkLogin = async function(userId, userPw) {
-    const user = await this.findOne({ userId });
-    if (user === null) return null;
-    const isSame = await bcrypt.compare(userPw, user.password);
-    if (isSame) return user;
-    return false;
+    try {
+        const user = await this.findOne({ userId });
+        if (user === null) return null;
+        const isSame = await bcrypt.compare(userPw, user.password);
+        if (isSame) return user;
+        return false;
+    } catch(err){
+        throw new Error('something wrong');
+    }
 }
 
 userSchema.statics.findUserB
