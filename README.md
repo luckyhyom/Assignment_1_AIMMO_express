@@ -104,3 +104,4 @@ Postman으로 API들을 테스트할 때,
 
 ## API 명세서
 
+[API 명세서](https://github.com/preOnboarding-Team13/Assignment_1_AIMMO_express/blob/main/API%20%EB%AA%85%EC%84%B8%EC%84%9C.md#%EC%82%AC%EC%9A%A9%EC%9E%90-api)

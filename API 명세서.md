@@ -1,12 +1,16 @@
 ## API 명세서
 
+### 목차
+- [사용자 API](https://github.com/preOnboarding-Team13/Assignment_1_AIMMO_express/blob/main/API%20%EB%AA%85%EC%84%B8%EC%84%9C.md#api-%EB%AA%85%EC%84%B8%EC%84%9C)
+- [게시판 API](https://github.com/preOnboarding-Team13/Assignment_1_AIMMO_express/blob/main/API%20%EB%AA%85%EC%84%B8%EC%84%9C.md#%EA%B2%8C%EC%8B%9C%ED%8C%90-api)
+- [댓글, 대댓글 API](https://github.com/preOnboarding-Team13/Assignment_1_AIMMO_express/blob/main/API%20%EB%AA%85%EC%84%B8%EC%84%9C.md#%EB%8C%93%EA%B8%80-%EB%8C%80%EB%8C%93%EA%B8%80-api)
 
 
-#### 사용자 API
+### 사용자 API
 
-1) 회원가입
+1) #### 회원가입
 
-POST /signup
+`POST` /signup
 
 - request
 
@@ -61,9 +65,9 @@ POST /signup
 
     
 
-2) 로그인
+2) #### 로그인
 
-POST /signin
+`POST` /signin
 
 - request
 
@@ -117,11 +121,11 @@ POST /signin
 
 
 
-#### 게시판 API
+### 게시판 API
 
-1) 게시글 생성
+1) #### 게시글 생성
 
-POST /board
+`POST` /board
 
 - request
 
@@ -178,9 +182,9 @@ POST /board
     }
     ```
 
-2) 게시글 수정
+2) #### 게시글 수정
 
-PATCH /board/:id
+`PATCH` /board/:id
 
 - request
 
@@ -219,10 +223,10 @@ PATCH /board/:id
 
   - parameters
 
-    | name    | type    | example                  | desc           |
-    | ------- | ------- | ------------------------ | -------------- |
-    | success | boolean | true                     | 요청 성공 여부 |
-    | message | string  | 게시글이 등록되었습니다. | 응답 메세지    |
+    | name    | type    | example        | desc           |
+    | ------- | ------- | -------------- | -------------- |
+    | success | boolean | true           | 요청 성공 여부 |
+    | message | string  | 수정되었습니다 | 응답 메세지    |
 
   - body example
 
@@ -230,7 +234,7 @@ PATCH /board/:id
     // 성공시
     {
         "success": true,
-        "message": "게시글이 등록되었습니다."
+        "message": "수정되었습니다"
     }
     
     // 실패시
@@ -248,9 +252,9 @@ PATCH /board/:id
     }
     ```
 
-3) 게시글 삭제
+3) #### 게시글 삭제
 
-DELETE /board/:id
+`DELETE` /board/:id
 
 - request
 
@@ -272,7 +276,7 @@ DELETE /board/:id
 
     | code | message                       |
     | ---- | ----------------------------- |
-    | 200  | 수정되었습니다.               |
+    | 200  | 삭제되었습니다.               |
     | 403  | 권한이 없습니다.              |
     | 404  | 존재하지 않는 게시글입니다.   |
     | 500  | 서버에서 문제가 발생했습니다. |
@@ -308,9 +312,9 @@ DELETE /board/:id
     }
     ```
 
-4) 게시글 내용 가져오기
+4) #### 게시글 내용 가져오기
 
-GET /board/:id
+`GET` /board/:id
 
 - request
 
@@ -332,12 +336,12 @@ GET /board/:id
 
   - parameters
 
-    | name      | type    | example               | desc           |
-    | --------- | ------- | --------------------- | -------------- |
-    | success   | boolean | true                  | 요청 성공 여부 |
-    | message   | string  | 성공했습니다.         | 응답 메세지    |
-    | boardInfo | object  | [{ title: "", ...  }] | 게시글 정보    |
-    | cnt       | number  | 1                     | 조회수         |
+    | name      | type    | example             | desc           |
+    | --------- | ------- | ------------------- | -------------- |
+    | success   | boolean | true                | 요청 성공 여부 |
+    | message   | string  | 성공했습니다.       | 응답 메세지    |
+    | boardInfo | object  | { title: "", ...  } | 게시글 정보    |
+    | cnt       | number  | 1                   | 조회수         |
 
   - body example
 
@@ -359,16 +363,16 @@ GET /board/:id
     }
     ```
 
-5) 게시글 목록 가져오기
+5) #### 게시글 목록 가져오기
 
-GET /board/?pageNo=
+`GET` /board/?pageNo=&pageSize=
 
 - request
 
   - query
 
     ```json
-    pageNo
+    pageNo, pageSize
     ```
 
 - response
@@ -388,7 +392,7 @@ GET /board/?pageNo=
     | success   | boolean | true                  | 요청 성공 여부 |
     | message   | string  | 성공했습니다.         | 응답 메세지    |
     | skipSize  | number  | 10                    | pagination     |
-    | boardInfo | object  | [{ title: "", ...  }] | 게시글 정보    |
+    | boardInfo | array   | [{ title: "", ...  }] | 게시글 정보    |
 
   - body example
 
@@ -410,9 +414,9 @@ GET /board/?pageNo=
     }
     ```
 
-6) 게시글 검색 글쓴이/제목/카테고리
+6) #### 게시글 검색 글쓴이/제목/카테고리
 
-GET /board/?title=제목&pageNo=
+`GET` /board/?title=제목&pageNo=
 
 - request
 
@@ -439,7 +443,7 @@ GET /board/?title=제목&pageNo=
     | success   | boolean | true                  | 요청 성공 여부 |
     | message   | string  | 성공했습니다.         | 응답 메세지    |
     | skipSize  | number  | 10                    | pagination     |
-    | boardInfo | object  | [{ title: "", ...  }] | 게시글 정보    |
+    | boardInfo | array   | [{ title: "", ...  }] | 게시글 정보    |
 
   - body example
 
@@ -460,4 +464,267 @@ GET /board/?title=제목&pageNo=
     	"message": "서버에서 문제가 발생했습니다."
     }
     ```
+
+### 댓글, 대댓글 API
+
+1. #### 댓글, 대댓글 생성
+
+`POST` /comment
+
+- request
+
+  - header
+
+    | KEY           | VALUE                        |
+    | ------------- | ---------------------------- |
+    | Authorization | eyJhbGciOiJIUzI1NiIsInR5c... |
+
+  - body
+
+    ```json
+    // 댓글
+    {
+        "boardId": 1 or ect..,
+        "contents": " ",
+        "depth": 1 or 2
+    }
+    ```
+
+- response
+
+  - status Code, message
+
+    | code | message                       |
+    | ---- | ----------------------------- |
+    | 201  | 댓글이 등록되었습니다.        |
+    | 401  | 로그인이 필요합니다.          |
+    | 500  | 서버에서 문제가 발생했습니다. |
+
+  - parameters
+
+    | name    | type    | example                  | desc           |
+    | ------- | ------- | ------------------------ | -------------- |
+    | success | boolean | true                     | 요청 성공 여부 |
+    | message | string  | 게시글이 등록되었습니다. | 응답 메세지    |
+
+  - body example
+
+    ```json
+    // 성공시
+    {
+        "success": true,
+        "message": "댓글이 등록되었습니다."
+    }
+    
+    // 실패시
+    {
+        "success": false,
+        "message": "로그인이 필요합니다."
+    }
+    {
+    	"success": false, 
+    	"message": "서버에서 문제가 발생했습니다."
+    }
+    ```
+
+2. #### 댓글, 대댓글 수정 
+
+`PATCH` /comment/:id
+
+- request
+
+  - header
+
+    | KEY           | VALUE                        |
+    | ------------- | ---------------------------- |
+    | Authorization | eyJhbGciOiJIUzI1NiIsInR5c... |
+
+  - params
+
+    ```json
+    commentId
+    ```
+
+  - body
+
+    ```json
+    {
+        "contents": ""
+    }
+    ```
+
+- response
+
+  - status Code, message
+
+    | code | message                       |
+    | ---- | ----------------------------- |
+    | 200  | 수정되었습니다.               |
+    | 403  | 권한이 없습니다.              |
+    | 404  | 존재하지 않는 댓글입니다.     |
+    | 500  | 서버에서 문제가 발생했습니다. |
+
+  - parameters
+
+    | name    | type    | example         | desc           |
+    | ------- | ------- | --------------- | -------------- |
+    | success | boolean | true            | 요청 성공 여부 |
+    | message | string  | 수정되었습니다. | 응답 메세지    |
+
+  - body example
+
+    ```json
+    // 성공시
+    {
+        "success": true,
+        "message": "수정되었습니다"
+    }
+    
+    // 실패시
+    {
+        "success": false,
+        "message": "권한이 없습니다."
+    }
+    {
+        "success": false,
+        "message": "존재하지 않는 댓글입니다."
+    }
+    {
+    	"success": false, 
+    	"message": "서버에서 문제가 발생했습니다."
+    }
+    ```
+
+3. #### 댓글, 대댓글 삭제
+
+`DELETE` /comment/:id
+
+- request
+
+  - header
+
+    | KEY           | VALUE                        |
+    | ------------- | ---------------------------- |
+    | Authorization | eyJhbGciOiJIUzI1NiIsInR5c... |
+
+  - params
+
+    ```json
+    commentId
+    ```
+
+- response
+
+  - status Code, message
+
+    | code | message                       |
+    | ---- | ----------------------------- |
+    | 200  | 삭제되었습니다.               |
+    | 403  | 권한이 없습니다.              |
+    | 404  | 존재하지 않는 댓글입니다.     |
+    | 500  | 서버에서 문제가 발생했습니다. |
+
+  - parameters
+
+    | name    | type    | example         | desc           |
+    | ------- | ------- | --------------- | -------------- |
+    | success | boolean | true            | 요청 성공 여부 |
+    | message | string  | 삭제되었습니다. | 응답 메세지    |
+
+  - body example
+
+    ```json
+    // 성공시
+    {
+        "success": true,
+        "message": "삭제되었습니다"
+    }
+    
+    // 실패시
+    {
+        "success": false,
+        "message": "권한이 없습니다."
+    }
+    {
+        "success": false,
+        "message": "존재하지 않는 댓글입니다."
+    }
+    {
+    	"success": false, 
+    	"message": "서버에서 문제가 발생했습니다."
+    }
+    ```
+
+4. #### 댓글, 대댓글 읽기
+
+`GET` /comment?
+
+- request
+
+  - query
+
+    ```json
+    pageNo, pageSize, commentId or boardId
+    ```
+
+    > commentId : 대댓글
+    >
+    > boardId : 댓글
+
+- response
+
+  - status Code, message
+
+    | code | message                       |
+    | ---- | ----------------------------- |
+    | 200  | 성공했습니다.                 |
+    | 404  | 존재하지 않는 페이지입니다.   |
+    | 500  | 서버에서 문제가 발생했습니다. |
+
+  - parameters
+
+    | name        | type    | example                  | desc                      |
+    | ----------- | ------- | ------------------------ | ------------------------- |
+    | success     | boolean | true                     | 요청 성공 여부            |
+    | message     | string  | 성공했습니다.            | 응답 메세지               |
+    | maxPageNo   | number  | 10                       | 현재 조건에서 maxpage번호 |
+    | commentInfo | array   | [{ contents: "", ...  }] | 댓글 정보                 |
+
+  - body example
+
+    ```json
+    // 성공시
+    {
+        "success": true,
+        "message": "성공했습니다.",
+        "maxPageNo": 1,
+        "commentInfo": [
+            {
+                "_id": "61801f50a59d2209ea68cb62",
+                "userId": "sally",
+                "boardId": 0,
+                "parentId": null,
+                "depth": 1,
+                "content": "이것은 댓글이다.",
+                "createdDt": "2021-11-01T17:09:36.621Z",
+                "updatedDt": "2021-11-01T17:09:36.621Z",
+                "commentId": 2,
+                "__v": 0
+            },
+            ...
+        ]
+    }
+    
+    // 실패시
+    {
+        "success": false,
+        "message": "존재하지 않는 페이지입니다."
+    }
+    {
+    	"success": false, 
+    	"message": "서버에서 문제가 발생했습니다."
+    }
+    ```
+
+    
 
