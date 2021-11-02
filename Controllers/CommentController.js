@@ -47,7 +47,7 @@ async function getCommentList(req, res, next){
     try {
         const commentId = req.query.commentId;
         const boardId = req.query.boardId;
-        const pageNo = Number(req.query.pageNo);
+        const pageNo = Number(req.query.pageNo || 1);
         const pageSize = Number(req.query.pageSize || 5);
         let depth = 1;
         if (commentId !== undefined) depth = 2; // 대댓글
