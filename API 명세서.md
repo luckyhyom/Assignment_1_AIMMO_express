@@ -1,5 +1,9 @@
 ## API 명세서
 
+### 목차
+- [사용자 API](https://github.com/preOnboarding-Team13/Assignment_1_AIMMO_express/blob/main/API%20%EB%AA%85%EC%84%B8%EC%84%9C.md#api-%EB%AA%85%EC%84%B8%EC%84%9C)
+- [게시판 API](https://github.com/preOnboarding-Team13/Assignment_1_AIMMO_express/blob/main/API%20%EB%AA%85%EC%84%B8%EC%84%9C.md#%EA%B2%8C%EC%8B%9C%ED%8C%90-api)
+- [댓글, 대댓글 API](https://github.com/preOnboarding-Team13/Assignment_1_AIMMO_express/blob/main/API%20%EB%AA%85%EC%84%B8%EC%84%9C.md#%EB%8C%93%EA%B8%80-%EB%8C%80%EB%8C%93%EA%B8%80-api)
 
 
 ### 사용자 API
