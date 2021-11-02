@@ -60,10 +60,10 @@ const deleteBoard = async function (req, res, next) {
         const boardId = req.params.id;
         const boardInfo = await board.findOne({ boardId, userId });
         if (!userInfo) throw new Error("권한이 없습니다.") 
+        if (!boardInfo) throw new Error("존재하지 않는 게시글입니다.")
 
-        const boardInfo = await board.deleteOne({ boardId, userId})
-        if(!boardInfo) throw new Error("존재하지 않는 게시글입니다.")
-
+        await board.deleteOne({ boardId, userId})
+        
         await comment.deleteMany({boardId});
         res.status(200).json({
             success: true, 
@@ -84,10 +84,9 @@ const listBoard = async function (req, res, next) {
         var postQuery = []
         var orQuery = {}
 
-        const pageSize = Math.max(1, pageNo)
-        var limit = 10
-        var skipSize = (pageSize-1)*10
-        
+        const pageSize = Number(req.query.pageSize || 5)
+        var offset = (pageNo-1)*pageSize
+
         if (title) { 
             postQuery.push({title: {$regex: title}})
         } else if (author) {
@@ -95,22 +94,26 @@ const listBoard = async function (req, res, next) {
         } else if (category) {
             postQuery.push({categoryCode: parseInt(category)})
         }
+
         if (postQuery) {
             orQuery = {$or: postQuery}
         }
+
         const boardInfo = await board.find(orQuery)
             .sort({ updatedDt: -1 }) // 업데이트된 날짜로 내림차순
-            .skip(parseInt(skipSize))
-            .limit(limit)
+            .skip(parseInt(offset))
+            .limit(pageSize)
             .populate("_id")
             .exec()
-        
         if (!boardInfo) throw new Error("존재하지 않는 페이지입니다.")
 
+        let count = await board.count()
+        const maxPageNo = Math.ceil(count/pageSize)
+        
         res.status(200).json({
             success: true,
             message:"성공했습니다.", 
-            skipSize,
+            maxPageNo,
             boardInfo
         })
     } catch (err) {
