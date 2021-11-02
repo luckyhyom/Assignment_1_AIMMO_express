@@ -12,6 +12,8 @@ const boardSchema = mongoose.Schema({
     readUser: {type: Object, trim: true}, // key, key개수 - object
     createdDt: {type: Date, required: true},
     updatedDt: {type: Date, required: true},
+}, {
+    versionKey: false
 });
 
 

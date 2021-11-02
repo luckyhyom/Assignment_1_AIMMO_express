@@ -12,6 +12,8 @@ const commentSchema = mongoose.Schema({
     contents: {type: String, required: true, trim: true},
     createdDt: {type: Date, required: true, default: Date.now()},
     updatedDt: {type: Date, required: true, default: Date.now()},
+}, {
+    versionKey: false
 });
 
 commentSchema.plugin(

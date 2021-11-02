@@ -7,6 +7,8 @@ const userSchema = mongoose.Schema({
     userName: {type: String, required: true, trim: true},
     createdDt: {type: Date, required: true, default: Date.now()},
     updatedDt: {type: Date, required: true, default: Date.now()},
+}, {
+    versionKey: false
 });
 
 // user가 생성되거나 변경될 때, password 필드가 변경되었으면 저장하기 전에 암호화 후 저장해줌 

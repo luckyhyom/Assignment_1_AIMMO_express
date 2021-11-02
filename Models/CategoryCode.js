@@ -5,6 +5,8 @@ const cateCode = mongoose.Schema({
     categoryName: {type: String, required: true, trim: true},
     createdDt: {type: Date, required: true, default: Date.now()},
     updatedDt: {type: Date, required: true, default: Date.now()},
+}, {
+    versionKey: false
 });
 
 cateCode.statics.initial = async function(){
