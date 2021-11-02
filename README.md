@@ -106,3 +106,15 @@ Postman으로 API들을 테스트할 때,
 ## API 명세서
 
 [API 명세서](https://github.com/preOnboarding-Team13/Assignment_1_AIMMO_express/blob/main/API%20%EB%AA%85%EC%84%B8%EC%84%9C.md#%EC%82%AC%EC%9A%A9%EC%9E%90-api)
+
+
+
+## Postman Test
+
+1. resource별로 collection을 만들어 이용했습니다.
+
+   <img src=".\images\postman_1.png" alt="postman_1" style="zoom:80%;" />
+
+2. 각 API에서 공통으로 사용되는 url을 변수로 지정해 이용했습니다.
+
+3. <img src=".\images\postman_2.png" alt="postman_2" style="zoom:80%;" />
