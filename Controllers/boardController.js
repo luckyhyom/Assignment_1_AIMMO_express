@@ -7,10 +7,11 @@ const writeBoard = async function(req, res, next) {
         const { title, contents, categoryCode} = req.body
         const userId = req.user?.userId
         if (!userId) throw new Error("로그인이 필요합니다.")
-        await board.create(title, contents, categoryCode, userId)
+        const boardInfo = await board.create(title, contents, categoryCode, userId)
         return res.status(201).json({
             success: true,
-            message: "게시글이 등록되었습니다."
+            message: "게시글이 등록되었습니다.",
+            boardInfo
         })
     } catch (err) {
         if (err.message === "로그인이 필요합니다.")
@@ -80,36 +81,37 @@ const deleteBoard = async function (req, res, next) {
 
 const listBoard = async function (req, res, next) {
     try {
-        const {title, author, category, pageNo} = req.query
-        var postQuery = []
-        var orQuery = {}
+        const {title, author, categoryCode, pageNo} = req.query
+        let postQuery = []
+        let orQuery = {}
 
         const pageSize = Number(req.query.pageSize || 5)
-        var offset = (pageNo-1)*pageSize
+        let offset = (pageNo-1)*pageSize
 
         if (title) { 
             postQuery.push({title: {$regex: title}})
         } else if (author) {
             postQuery.push({userId: {$regex: author}})
-        } else if (category) {
-            postQuery.push({categoryCode: parseInt(category)})
+        } else if (categoryCode) {
+            postQuery.push({categoryCode: parseInt(categoryCode)})
         }
 
-        if (postQuery) {
+        if (postQuery.length !== 0) {
             orQuery = {$or: postQuery}
         }
-
+        
         const boardInfo = await board.find(orQuery)
             .sort({ updatedDt: -1 }) // 업데이트된 날짜로 내림차순
             .skip(parseInt(offset))
             .limit(pageSize)
             .populate("_id")
             .exec()
+        
         if (!boardInfo) throw new Error("존재하지 않는 페이지입니다.")
 
         let count = await board.count()
         const maxPageNo = Math.ceil(count/pageSize)
-        
+
         res.status(200).json({
             success: true,
             message:"성공했습니다.", 
