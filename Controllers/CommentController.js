@@ -2,12 +2,12 @@ const comment = require('../Models/CommentModel');
 
 async function writeComment(req, res, next){
     try{
-        const { boardId, content, depth } = req.body;
+        const { boardId, contents, depth } = req.body;
         let parentId = null;
         if (depth == 2) parentId = req.body.parentId;
         const userId = req.user?.userId;
         if (!userId) throw new Error('로그인이 필요합니다.');
-        await comment.create(boardId, content, depth, parentId, userId);
+        await comment.create(boardId, contents, depth, parentId, userId);
         res.status(201).json({
             success: true,
             message: '댓글이 등록되었습니다.'
@@ -21,13 +21,13 @@ async function writeComment(req, res, next){
 async function modifyComment(req, res, next){
     try{
         const commentId = req.params.id;
-        const { content } = req.body;
+        const { contents } = req.body;
         const userId = req.user?.userId;
         if (!userId) throw new Error('권한이 없습니다.');
         const tempComment = await comment.findOne({commentId});
         if (!tempComment) throw new Error('존재하지 않는 댓글입니다.');
         if (userId !== tempComment.userId) throw new Error('권한이 없습니다.');
-        await tempComment.update({content, updateDt: Date.now()});
+        await tempComment.update({contents, updateDt: Date.now()});
         const result = await comment.findOne({commentId});
         res.status(200).json({
             success: true,

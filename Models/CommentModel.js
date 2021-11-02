@@ -9,7 +9,7 @@ const commentSchema = mongoose.Schema({
     boardId: {type: Number, ref: 'board'},
     parentId: {type: Number, ref: 'comment'},
     depth: {type: Number, required: true, default: 1},
-    content: {type: String, required: true, trim: true},
+    contents: {type: String, required: true, trim: true},
     createdDt: {type: Date, required: true, default: Date.now()},
     updatedDt: {type: Date, required: true, default: Date.now()},
 });
@@ -21,12 +21,12 @@ commentSchema.plugin(
          startAt : 1, //시작
          increment : 1 // 증가
 });
-commentSchema.statics.create = function(boardId, content, depth, parentId, userId){
-    const comment = new this({boardId, content, depth, parentId, userId});
+commentSchema.statics.create = function(boardId, contents, depth, parentId, userId){
+    const comment = new this({boardId, contents, depth, parentId, userId});
     return comment.save();
 }
-commentSchema.statics.updateOne = function(commentId, content){
-    return this.findOneAndUpdate({commentId}, {content}); // 모델에 굳이 함수 안만들고 컨트롤러에서 바로 이거 쓰게해도 되나 
+commentSchema.statics.updateOne = function(commentId, contents){
+    return this.findOneAndUpdate({commentId}, {contents}); // 모델에 굳이 함수 안만들고 컨트롤러에서 바로 이거 쓰게해도 되나 
 }
 
 commentSchema.statics.getCommentList = async function(boardId, parentId, depth, pageNo, pageSize){
