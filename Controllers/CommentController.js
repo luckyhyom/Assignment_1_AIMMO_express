@@ -5,8 +5,7 @@ async function writeComment(req, res, next){
         const { boardId, content, depth } = req.body;
         let parentId = null;
         if (depth == 2) parentId = req.body.parentId;
-        console.log(req.user);
-        const userId = req.user.userId;
+        const userId = req.user?.userId;
         if (!userId) throw new Error('로그인이 필요합니다.');
         await comment.create(boardId, content, depth, parentId, userId);
         res.status(201).json({
@@ -15,7 +14,7 @@ async function writeComment(req, res, next){
         });
     } catch(err) {
         if (err.message === '로그인이 필요합니다.') 
-            err.status = 401
+            err.status = 401;
         next(err);
     }
 }
@@ -25,9 +24,10 @@ async function modifyComment(req, res, next){
         const { content } = req.body;
         const userId = req.user?.userId;
         if (!userId) throw new Error('권한이 없습니다.');
-        const authId = comment.find({commentId}).select('userId');
-        if (userId !== authId) throw new Error('권한이 없습니다.');
-        await comment.updateOne(commentId, content);
+        const tempComment = await comment.findOne({commentId});
+        if (!tempComment) throw new Error('존재하지 않는 댓글입니다.');
+        if (userId !== tempComment.userId) throw new Error('권한이 없습니다.');
+        await tempComment.update({content, updateDt: Date.now()});
         const result = await comment.findOne({commentId});
         res.status(200).json({
             success: true,
@@ -42,12 +42,12 @@ async function modifyComment(req, res, next){
 }
 async function getCommentList(req, res, next){
     try {
-        const commentId = Number(req.query.commentId);
-        const boardId = Number(req.query.boardId);
+        const commentId = req.query.commentId;
+        const boardId = req.query.boardId;
         const pageNo = Number(req.query.pageNo);
         const pageSize = Number(req.query.pageSize || 5);
         let depth = 1;
-        if (commentId !== NaN) depth = 2; // 대댓글
+        if (commentId !== undefined) depth = 2; // 대댓글
         let { result, count } = await comment.getCommentList(boardId, commentId, depth, pageNo, pageSize);
         if (!result) result = [];
         const maxPageNo = Math.ceil(count/pageSize);
@@ -66,9 +66,11 @@ async function deleteComment(req, res, next){
         const commentId = req.params.id;
         const userId = req.user?.userId;
         if (!userId) throw new Error('권한이 없습니다.');
-        const authId = comment.find({commentId}).select('userId');
-        if (userId !== authId) throw new Error('권한이 없습니다.');
+        const author = await comment.findOne({commentId});
+        if (!author) throw new Error('존재하지 않는 댓글입니다.');
+        if (userId !== author.userId) throw new Error('권한이 없습니다.');
         await comment.findOneAndRemove({commentId});
+        await comment.deleteMany({parentId: commentId});
         res.status(200).json({
             success: true,
             message: '삭제되었습니다.',
@@ -76,6 +78,8 @@ async function deleteComment(req, res, next){
     }catch(err){
         if (err.message === '권한이 없습니다.') 
             err.status = 403;
+        if (err.message === '존재하지 않는 댓글입니다.')
+            err.status = 404;
         next(err);
     }
     
