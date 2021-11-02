@@ -5,8 +5,8 @@ const userSchema = mongoose.Schema({
     userId: {type: String, required: true, unique: true, trim: true},
     password: {type: String, required: true, trim: true},
     userName: {type: String, required: true, trim: true},
-    createdDt: {type: Date, required: true},
-    updatedDt: {type: Date, required: true},
+    createdDt: {type: Date, required: true, default: Date.now()},
+    updatedDt: {type: Date, required: true, default: Date.now()},
 });
 
 // user가 생성되거나 변경될 때, password 필드가 변경되었으면 저장하기 전에 암호화 후 저장해줌 
@@ -30,8 +30,6 @@ userSchema.statics.create = function(userId, userPw, userName) {
         userId,
         password: userPw,
         userName,
-        createdDt: Date.now(),
-        updatedDt: Date.now()
     });
     return user.save();
 }

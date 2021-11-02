@@ -10,8 +10,8 @@ const commentSchema = mongoose.Schema({
     parentId: {type: Number, ref: 'comment'},
     depth: {type: Number, required: true, default: 1},
     content: {type: String, required: true, trim: true},
-    createdDt: {type: Date, required: true},
-    updatedDt: {type: Date, required: true},
+    createdDt: {type: Date, required: true, default: Date.now()},
+    updatedDt: {type: Date, required: true, default: Date.now()},
 });
 
 commentSchema.plugin(
@@ -22,11 +22,7 @@ commentSchema.plugin(
          increment : 1 // 증가
 });
 commentSchema.statics.create = function(boardId, content, depth, parentId, userId){
-    const comment = new this({
-        boardId, content, depth, parentId, userId,
-        createdDt: Date.now(),
-        updatedDt: Date.now()
-    });
+    const comment = new this({boardId, content, depth, parentId, userId});
     return comment.save();
 }
 commentSchema.statics.updateOne = function(commentId, content){

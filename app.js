@@ -5,12 +5,16 @@ const cors = require('cors')
 const router = require('./router')
 const mongoose = require('mongoose')
 const port = process.env.PORT || 3013
+const categoryCode = require('./Models/CategoryCode');
+
 require('dotenv').config();
 mongoURI = process.env.mongoURI;
 const connect = mongoose.connect(mongoURI)
-    .then(() => console.log('MongoDB Connected...'))
-    .catch(err => console.log(err))
-
+    .then(() => {
+        console.log('MongoDB Connected...')
+    })
+    .catch(err => console.log(err));
+categoryCode.initial();
 app.use(cors({ credentials: true }))
 app.use(express.urlencoded({ extended: true }))
 
