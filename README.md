@@ -155,6 +155,7 @@ Postman으로 API들을 테스트할 때,
 ## 테스트 전략
 
 - 라우터와 모델 테스트를 분리하여 테스트 하였습니다.
+- Unit Test 할 경우, 실제 DB에 영항을 주지 않기 위해 In-memory MongoDb 를 사용하여, Unit 테스트와 Router 테스트를 분리 시켰습니다.
 - Model 영역의 CRUD 를 Unit 테스트를 하였습니다.
 - 라우터 테스트는 Postman 으로 직접 테스트 하였습니다.
 
