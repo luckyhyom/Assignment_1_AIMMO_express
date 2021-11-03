@@ -120,13 +120,19 @@ describe("댓글 CRUD", () => {
     // given
     const commentId = 2;
     const contents = "수정댓글";
-    const userId = 1;
+    const userId = "2"
 
     // when
     const commentInfo = await comment.findOneAndUpdate(
       { commentId },
-      { contents, updatedDt: Date.now() }
+      { $set: {contents, updatedDt: Date.now() }},
+      { new: true }
     );
+
+    // then
+    expect(commentInfo.contents).toEqual(contents)
+    expect(commentInfo.commentId).toEqual(commentId)
+    expect(commentInfo.userId).toEqual(userId)
   });
 
   it("댓글을 삭제할 수 있다.", async () => {
