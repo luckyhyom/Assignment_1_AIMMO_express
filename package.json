@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./app.js"
+    "start": "nodemon ./app.js",
+    "jest": "jest"
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,10 @@
     "mongoose": "^6.0.12",
     "mongoose-auto-increment": "^5.0.1",
     "nodemon": "^2.0.14"
+  },
+  "devDependencies": {
+    "@shelf/jest-mongodb": "^2.1.0",
+    "jest": "^27.3.1",
+    "mongodb-memory-server": "^8.0.0"
   }
 }
