@@ -85,6 +85,8 @@ jwtSecretKey = ikDshiCLtsLQ66fiZMyr9qjS1NVNbWpz
 mongoURI = mongodb+srv://team13:0000@cluster0.8ii4h.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 ```
 
+#### 5) Unit Test 통과 시 서버 배포
+
 
 
 ## 실행 방법 🏄
@@ -115,6 +117,8 @@ Postman으로 API들을 테스트할 때,
 | Authorization | eyJhbGciOiJIUzI1NiIsInR5c... |
 ```
 
+
+
 ## 사용 기술 ⚒
 
 #### Nodejs 📗
@@ -136,7 +140,9 @@ Postman으로 API들을 테스트할 때,
 > mongoose 라이브러리를 이용했습니다.
 
 
+
 ## ERD 🗺️
+
 ![AIMMO_ERD](https://user-images.githubusercontent.com/60311404/139860476-64427ebb-78b2-4555-9fec-021807509aea.png)
 
 
@@ -145,11 +151,14 @@ Postman으로 API들을 테스트할 때,
 [API 명세서](https://github.com/preOnboarding-Team13/Assignment_1_AIMMO_express/blob/main/API%20%EB%AA%85%EC%84%B8%EC%84%9C.md#%EC%82%AC%EC%9A%A9%EC%9E%90-api)
 
 
-# 테스트 전략
+
+## 테스트 전략
 
 - 라우터와 모델 테스트를 분리하여 테스트 하였습니다.
 - Model 영역의 CRUD 를 Unit 테스트를 하였습니다.
 - 라우터 테스트는 Postman 으로 직접 테스트 하였습니다.
+
+
 
 ## Postman Test 🧗‍♂️
 
@@ -161,6 +170,8 @@ Postman으로 API들을 테스트할 때,
 
    <img src=".\images\postman_2.png" alt="postman_2" style="zoom:80%;" />
 
+
+
 ## Unit Test
 
 - User 모델의 회원가입 / 로그인 테스트
@@ -168,5 +179,5 @@ Postman으로 API들을 테스트할 때,
 - Comment 모델의 CRUD 테스트
 - libs 의 공용 라이브러리 테스트
 
-### 미구현 테스트
+#### 미구현 테스트
 - 1000만건 이상의 데이터를 넣고 성능테스트 진행 결과 필요
