@@ -182,3 +182,10 @@ Postman으로 API들을 테스트할 때,
 
 #### 미구현 테스트
 - 1000만건 이상의 데이터를 넣고 성능테스트 진행 결과 필요
+
+
+
+## TIL 블로그 주소
+
+- [장희진](https://github.com/heejin99) - [Github 블로그](https://heejin99.github.io/preonboarding/Pre-Onboarding-%EA%B8%B0%EC%97%85%EA%B3%BC%EC%A0%9C-AIMMO-TIL/)
+
