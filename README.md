@@ -188,4 +188,4 @@ Postman으로 API들을 테스트할 때,
 ## TIL 블로그 주소
 
 - [장희진](https://github.com/heejin99) - [Github 블로그](https://heejin99.github.io/preonboarding/Pre-Onboarding-%EA%B8%B0%EC%97%85%EA%B3%BC%EC%A0%9C-AIMMO-TIL/)
-
+- [김바다]((https://github.com/sally0226) - [Tistory 블로그](https://bba-dda.tistory.com/105)
